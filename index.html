@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Invitation Platform</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#6366f1,#0ea5e9);
+    color:#fff;
+}
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px;
+}
+.card{
+    background:#fff;
+    color:#000;
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 20px 40px rgba(0,0,0,.2);
+    margin-bottom:25px;
+}
+input,select,textarea,button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+button{
+    background:#6366f1;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+button:hover{opacity:.9}
+.preview{
+    text-align:center;
+}
+.template{
+    padding:25px;
+    border-radius:14px;
+    background:#f9fafb;
+}
+.template.wedding{border-top:6px solid #ec4899}
+.template.birthday{border-top:6px solid #f59e0b}
+.template.aqiqah{border-top:6px solid #22c55e}
+.template.seminar{border-top:6px solid #0ea5e9}
+audio{margin-top:10px}
+#countdown{font-weight:bold;margin:10px 0}
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎉 Digital Invitation Generator</h1>
+
+<!-- FORM -->
+<div class="card">
+<h2>Buat Undangan</h2>
+
+<input id="title" placeholder="Nama Acara / Mempelai">
+<input id="date" type="datetime-local">
+<input id="location" placeholder="Lokasi">
+<textarea id="message">Dengan hormat kami mengundang Anda...</textarea>
+
+<select id="template">
+<option value="wedding">Pernikahan</option>
+<option value="birthday">Ulang Tahun</option>
+<option value="aqiqah">Aqiqah</option>
+<option value="seminar">Seminar</option>
+</select>
+
+<select id="music">
+<option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Instrumental</option>
+<option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">Islami</option>
+</select>
+
+<button onclick="generate()">Generate Undangan</button>
+</div>
+
+<!-- PREVIEW -->
+<div class="card preview hidden" id="previewCard">
+<div id="invitation" class="template"></div>
+
+<audio id="audio" controls loop></audio>
+
+<div id="countdown"></div>
+
+<h3>QR Code</h3>
+<canvas id="qr"></canvas>
+
+<h3>RSVP</h3>
+<input id="rsvpName" placeholder="Nama Anda">
+<select id="rsvpStatus">
+<option>Hadir</option>
+<option>Tidak Hadir</option>
+</select>
+<button onclick="sendRSVP()">Kirim RSVP</button>
+
+<p id="rsvpResult"></p>
+</div>
+
+<!-- ADMIN -->
+<div class="card">
+<h2>Admin Dashboard</h2>
+<button onclick="showAdmin()">Lihat Data RSVP</button>
+<div id="adminData"></div>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+
+<script>
+let invitationData = {};
+let rsvps = JSON.parse(localStorage.getItem("rsvps") || "[]");
+
+function generate(){
+    invitationData = {
+        title:title.value,
+        date:date.value,
+        location:location.value,
+        message:message.value,
+        template:template.value,
+        music:music.value
+    };
+
+    localStorage.setItem("invitation",JSON.stringify(invitationData));
+    renderInvitation();
+}
+
+function renderInvitation(){
+    const inv = invitationData;
+    previewCard.classList.remove("hidden");
+
+    invitation.className = "template " + inv.template;
+    invitation.innerHTML = `
+        <h2>${inv.title}</h2>
+        <p><b>${new Date(inv.date).toLocaleString()}</b></p>
+        <p>${inv.location}</p>
+        <p>${inv.message}</p>
+    `;
+
+    audio.src = inv.music;
+    startCountdown(inv.date);
+
+    new QRious({
+        element: document.getElementById("qr"),
+        size:200,
+        value: window.location.href
+    });
+}
+
+function startCountdown(date){
+    setInterval(()=>{
+        const diff = new Date(date) - new Date();
+        if(diff<=0){
+            countdown.innerHTML="🎉 Acara Dimulai";
+            return;
+        }
+        const d = Math.floor(diff/86400000);
+        const h = Math.floor(diff/3600000)%24;
+        const m = Math.floor(diff/60000)%60;
+        countdown.innerHTML = `⏳ ${d} Hari ${h} Jam ${m} Menit`;
+    },1000);
+}
+
+function sendRSVP(){
+    rsvps.push({
+        nama:rsvpName.value,
+        status:rsvpStatus.value,
+        acara:invitationData.title
+    });
+    localStorage.setItem("rsvps",JSON.stringify(rsvps));
+    rsvpResult.innerHTML="✅ RSVP tersimpan";
+}
+
+function showAdmin(){
+    adminData.innerHTML = "<ul>" +
+        rsvps.map(r=>`<li>${r.nama} - ${r.status} (${r.acara})</li>`).join("") +
+        "</ul>";
+}
+
+const saved = localStorage.getItem("invitation");
+if(saved){
+    invitationData = JSON.parse(saved);
+    renderInvitation();
+}
+</script>
+
+</body>
+</html>
