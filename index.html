@@ -3,58 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Invitation Platform</title>
+<title>Undanganmu — Digital Invitation</title>
+
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
+:root{
+  --primary:#6366f1;
+  --secondary:#0ea5e9;
+  --dark:#020617;
+  --glass:rgba(255,255,255,.12);
+}
+
+*{box-sizing:border-box}
+
 body{
-    margin:0;
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#6366f1,#0ea5e9);
-    color:#fff;
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(circle at top,#6366f1,#020617 70%);
+  color:white;
+  min-height:100vh;
+  overflow-x:hidden;
 }
+
+/* ===== LAYOUT ===== */
 .container{
-    max-width:1100px;
-    margin:auto;
-    padding:30px;
+  max-width:1200px;
+  margin:auto;
+  padding:clamp(16px,4vw,40px);
 }
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(20px,4vw,40px);
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+}
+
+/* ===== GLASS CARD ===== */
 .card{
-    background:#fff;
-    color:#000;
-    border-radius:16px;
-    padding:20px;
-    box-shadow:0 20px 40px rgba(0,0,0,.2);
-    margin-bottom:25px;
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  border-radius:24px;
+  padding:clamp(20px,4vw,35px);
+  box-shadow:0 40px 80px rgba(0,0,0,.4);
+  animation:fadeUp .8s ease;
 }
-input,select,textarea,button{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border-radius:8px;
-    border:1px solid #ddd;
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:none}
 }
+
+/* ===== FORM ===== */
+input,textarea,select{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  background:rgba(255,255,255,.1);
+  color:white;
+  margin-top:12px;
+  font-size:15px;
+}
+
+input::placeholder,textarea::placeholder{
+  color:#c7d2fe;
+}
+
 button{
-    background:#6366f1;
-    color:white;
-    border:none;
-    cursor:pointer;
+  width:100%;
+  margin-top:18px;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:600;
+  color:white;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  cursor:pointer;
+  transition:.4s;
 }
-button:hover{opacity:.9}
-.preview{
-    text-align:center;
+
+button:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 20px 40px rgba(99,102,241,.6);
 }
-.template{
-    padding:25px;
-    border-radius:14px;
-    background:#f9fafb;
+
+/* ===== INVITATION ===== */
+.invitation{
+  text-align:center;
+  animation:scaleIn .8s ease;
 }
-.template.wedding{border-top:6px solid #ec4899}
-.template.birthday{border-top:6px solid #f59e0b}
-.template.aqiqah{border-top:6px solid #22c55e}
-.template.seminar{border-top:6px solid #0ea5e9}
-#countdown{font-weight:bold;margin:10px 0}
-.hidden{display:none}
-.music-control{
-    margin-top:15px;
+
+@keyframes scaleIn{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:none}
+}
+
+.invitation h2{
+  font-size:clamp(28px,5vw,42px);
+  font-weight:800;
+}
+
+.invitation p{
+  font-size:clamp(14px,2vw,17px);
+  opacity:.9;
+}
+
+#countdown{
+  margin:18px 0;
+  font-weight:700;
+  font-size:clamp(16px,2vw,20px);
+}
+
+/* ===== MUSIC BUTTON ===== */
+.music-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:linear-gradient(135deg,#ec4899,#f43f5e);
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+  cursor:pointer;
+  z-index:99;
 }
 </style>
 </head>
@@ -62,159 +145,90 @@ button:hover{opacity:.9}
 <body>
 
 <div class="container">
-<h1>🎉 Digital Invitation Generator</h1>
+
+<h1 style="font-size:clamp(32px,6vw,54px);font-weight:800">
+✨ Undanganmu
+</h1>
+<p style="max-width:500px;opacity:.8">
+Buat undangan digital modern, interaktif, dan siap dibagikan.
+</p>
+
+<div class="grid">
 
 <!-- FORM -->
 <div class="card">
-<h2>Buat Undangan</h2>
-
 <input id="title" placeholder="Nama Acara / Mempelai">
 <input id="date" type="datetime-local">
-<input id="location" placeholder="Lokasi">
+<input id="location" placeholder="Lokasi Acara">
 <textarea id="message">Dengan hormat kami mengundang Anda...</textarea>
 
-<select id="template">
-<option value="wedding">Pernikahan</option>
-<option value="birthday">Ulang Tahun</option>
-<option value="aqiqah">Aqiqah</option>
-<option value="seminar">Seminar</option>
-</select>
-
 <select id="music">
-<option value="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f3a9a9e62.mp3">Instrumental Wedding</option>
-<option value="https://cdn.pixabay.com/download/audio/2022/02/23/audio_9b0d4d3f8e.mp3">Calm Islamic</option>
+<option value="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f3a9a9e62.mp3">
+Instrumental Wedding
+</option>
+<option value="https://cdn.pixabay.com/download/audio/2022/02/23/audio_9b0d4d3f8e.mp3">
+Calm Islamic
+</option>
 </select>
 
 <button onclick="generate()">Generate Undangan</button>
 </div>
 
 <!-- PREVIEW -->
-<div class="card preview hidden" id="previewCard">
-<div id="invitation" class="template"></div>
-
-<!-- OPEN SOURCE MUSIC -->
-<audio id="bgMusic" autoplay loop>
-  <source id="musicSource" src="" type="audio/mpeg">
-</audio>
-
-<div class="music-control">
-<button onclick="toggleMusic()">🔊 Play / Pause Musik</button>
-</div>
-
+<div class="card invitation" id="preview">
+<h2>Nama Acara</h2>
+<p>Tanggal & Lokasi</p>
 <div id="countdown"></div>
-
-<h3>QR Code</h3>
-<canvas id="qr"></canvas>
-
-<h3>RSVP</h3>
-<input id="rsvpName" placeholder="Nama Anda">
-<select id="rsvpStatus">
-<option>Hadir</option>
-<option>Tidak Hadir</option>
-</select>
-<button onclick="sendRSVP()">Kirim RSVP</button>
-
-<p id="rsvpResult"></p>
-</div>
-
-<!-- ADMIN -->
-<div class="card">
-<h2>Admin Dashboard</h2>
-<button onclick="showAdmin()">Lihat Data RSVP</button>
-<div id="adminData"></div>
+<p>Pesan Undangan</p>
 </div>
 
 </div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+<!-- MUSIC -->
+<audio id="musicPlayer" autoplay loop></audio>
+<div class="music-btn" onclick="toggleMusic()">🎵</div>
 
 <script>
-let invitationData = {};
-let rsvps = JSON.parse(localStorage.getItem("rsvps") || "[]");
+let musicPlaying=true;
 
 function generate(){
-    invitationData = {
-        title:title.value,
-        date:date.value,
-        location:location.value,
-        message:message.value,
-        template:template.value,
-        music:music.value
-    };
+  const t=title.value;
+  const d=new Date(date.value);
+  const l=location.value;
+  const m=message.value;
 
-    localStorage.setItem("invitation",JSON.stringify(invitationData));
-    renderInvitation();
+  preview.innerHTML=`
+    <h2>${t}</h2>
+    <p>${d.toLocaleString()} — ${l}</p>
+    <div id="countdown"></div>
+    <p>${m}</p>
+  `;
+
+  musicPlayer.src=music.value;
+  musicPlayer.volume=.7;
+  musicPlayer.play().catch(()=>{});
+
+  startCountdown(d);
 }
 
-function renderInvitation(){
-    previewCard.classList.remove("hidden");
-
-    invitation.className = "template " + invitationData.template;
-    invitation.innerHTML = `
-        <h2>${invitationData.title}</h2>
-        <p><b>${new Date(invitationData.date).toLocaleString()}</b></p>
-        <p>${invitationData.location}</p>
-        <p>${invitationData.message}</p>
-    `;
-
-    // MUSIC
-    musicSource.src = invitationData.music;
-    bgMusic.load();
-
-    // Autoplay fix (browser policy)
-    document.body.addEventListener("click",()=>{
-        bgMusic.play().catch(()=>{});
-    },{once:true});
-
-    startCountdown(invitationData.date);
-
-    new QRious({
-        element: document.getElementById("qr"),
-        size:200,
-        value: window.location.href
-    });
+function startCountdown(target){
+  setInterval(()=>{
+    const diff=target-new Date();
+    if(diff<=0){
+      countdown.innerHTML="🎉 Acara Dimulai";
+      return;
+    }
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor(diff/3600000)%24;
+    const m=Math.floor(diff/60000)%60;
+    countdown.innerHTML=`⏳ ${d} Hari ${h} Jam ${m} Menit`;
+  },1000);
 }
 
 function toggleMusic(){
-    if(bgMusic.paused) bgMusic.play();
-    else bgMusic.pause();
-}
-
-function startCountdown(date){
-    setInterval(()=>{
-        const diff = new Date(date) - new Date();
-        if(diff<=0){
-            countdown.innerHTML="🎉 Acara Dimulai";
-            return;
-        }
-        const d = Math.floor(diff/86400000);
-        const h = Math.floor(diff/3600000)%24;
-        const m = Math.floor(diff/60000)%60;
-        countdown.innerHTML = `⏳ ${d} Hari ${h} Jam ${m} Menit`;
-    },1000);
-}
-
-function sendRSVP(){
-    rsvps.push({
-        nama:rsvpName.value,
-        status:rsvpStatus.value,
-        acara:invitationData.title
-    });
-    localStorage.setItem("rsvps",JSON.stringify(rsvps));
-    rsvpResult.innerHTML="✅ RSVP tersimpan";
-}
-
-function showAdmin(){
-    adminData.innerHTML = "<ul>" +
-        rsvps.map(r=>`<li>${r.nama} - ${r.status} (${r.acara})</li>`).join("") +
-        "</ul>";
-}
-
-// AUTO LOAD
-const saved = localStorage.getItem("invitation");
-if(saved){
-    invitationData = JSON.parse(saved);
-    renderInvitation();
+  musicPlaying=!musicPlaying;
+  musicPlaying?musicPlayer.play():musicPlayer.pause();
 }
 </script>
 
