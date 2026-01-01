@@ -3,17 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Undanganmu — Digital Invitation</title>
+<title>Undanganmu | Undangan Digital Premium</title>
 
-<!-- GOOGLE FONT -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --primary:#6366f1;
-  --secondary:#0ea5e9;
-  --dark:#020617;
-  --glass:rgba(255,255,255,.12);
+  --primary:#c8a96a;
+  --soft:#f8f6f2;
+  --dark:#2a2a2a;
 }
 
 *{box-sizing:border-box}
@@ -21,214 +20,257 @@
 body{
   margin:0;
   font-family:'Inter',sans-serif;
-  background:
-    radial-gradient(circle at top,#6366f1,#020617 70%);
-  color:white;
-  min-height:100vh;
-  overflow-x:hidden;
+  color:var(--dark);
+  background:#fff;
 }
 
-/* ===== LAYOUT ===== */
+/* ===== GLOBAL ===== */
 .container{
   max-width:1200px;
   margin:auto;
-  padding:clamp(16px,4vw,40px);
+  padding:clamp(20px,5vw,60px);
 }
 
-.grid{
+.btn{
+  display:inline-block;
+  padding:16px 32px;
+  border-radius:40px;
+  background:var(--primary);
+  color:white;
+  text-decoration:none;
+  font-weight:500;
+  transition:.3s;
+}
+.btn:hover{opacity:.85}
+
+/* ===== HEADER ===== */
+header{
+  position:sticky;
+  top:0;
+  background:white;
+  z-index:99;
+  border-bottom:1px solid #eee;
+}
+
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  font-weight:700;
+  color:var(--primary);
+}
+
+/* ===== HERO ===== */
+.hero{
+  background:var(--soft);
+  text-align:center;
+}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(34px,6vw,60px);
+  margin-bottom:20px;
+}
+
+.hero p{
+  max-width:600px;
+  margin:auto;
+  opacity:.8;
+  font-size:18px;
+}
+
+/* ===== FEATURES ===== */
+.features{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:clamp(20px,4vw,40px);
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:30px;
+  margin-top:60px;
 }
 
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr}
+.feature{
+  padding:30px;
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 20px 40px rgba(0,0,0,.05);
+  text-align:center;
 }
 
-/* ===== GLASS CARD ===== */
-.card{
-  background:var(--glass);
-  backdrop-filter:blur(20px);
-  border-radius:24px;
-  padding:clamp(20px,4vw,35px);
-  box-shadow:0 40px 80px rgba(0,0,0,.4);
-  animation:fadeUp .8s ease;
+.feature h3{
+  font-family:'Playfair Display',serif;
+  margin-bottom:10px;
 }
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:none}
+/* ===== TEMPLATE ===== */
+.templates{
+  background:var(--soft);
 }
 
-/* ===== FORM ===== */
+.template-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+
+.template-card{
+  background:white;
+  border-radius:20px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.08);
+}
+
+/* ===== GENERATOR ===== */
+.generator{
+  background:white;
+}
+
+form{
+  max-width:600px;
+  margin:auto;
+}
+
 input,textarea,select{
   width:100%;
   padding:14px;
+  margin-top:15px;
   border-radius:14px;
-  border:none;
-  background:rgba(255,255,255,.1);
-  color:white;
-  margin-top:12px;
-  font-size:15px;
+  border:1px solid #ddd;
 }
 
-input::placeholder,textarea::placeholder{
-  color:#c7d2fe;
-}
-
-button{
-  width:100%;
-  margin-top:18px;
-  padding:16px;
-  border:none;
-  border-radius:16px;
-  font-size:16px;
-  font-weight:600;
-  color:white;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  cursor:pointer;
-  transition:.4s;
-}
-
-button:hover{
-  transform:translateY(-3px) scale(1.02);
-  box-shadow:0 20px 40px rgba(99,102,241,.6);
-}
-
-/* ===== INVITATION ===== */
-.invitation{
+/* ===== PREVIEW ===== */
+.preview{
+  margin-top:60px;
+  background:var(--soft);
+  border-radius:30px;
+  padding:40px;
   text-align:center;
-  animation:scaleIn .8s ease;
 }
 
-@keyframes scaleIn{
-  from{opacity:0;transform:scale(.9)}
-  to{opacity:1;transform:none}
+.preview h2{
+  font-family:'Playfair Display',serif;
+  font-size:40px;
 }
 
-.invitation h2{
-  font-size:clamp(28px,5vw,42px);
-  font-weight:800;
-}
-
-.invitation p{
-  font-size:clamp(14px,2vw,17px);
-  opacity:.9;
-}
-
-#countdown{
-  margin:18px 0;
-  font-weight:700;
-  font-size:clamp(16px,2vw,20px);
-}
-
-/* ===== MUSIC BUTTON ===== */
-.music-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:linear-gradient(135deg,#ec4899,#f43f5e);
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  box-shadow:0 20px 40px rgba(0,0,0,.4);
-  cursor:pointer;
-  z-index:99;
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;
+  padding:40px;
+  font-size:14px;
+  opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
+  <div class="container nav">
+    <div class="logo">Undanganmu</div>
+    <a href="#buat" class="btn">Buat Undangan</a>
+  </div>
+</header>
 
-<h1 style="font-size:clamp(32px,6vw,54px);font-weight:800">
-✨ Undanganmu
-</h1>
-<p style="max-width:500px;opacity:.8">
-Buat undangan digital modern, interaktif, dan siap dibagikan.
-</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Undangan Digital Elegan<br>Untuk Momen Spesial</h1>
+    <p>
+      Buat undangan pernikahan digital yang indah, modern, dan mudah dibagikan.
+    </p>
+    <br>
+    <a href="#buat" class="btn">Mulai Sekarang</a>
+  </div>
+</section>
 
-<div class="grid">
+<!-- FEATURES -->
+<section class="container">
+  <div class="features">
+    <div class="feature">
+      <h3>✨ Template Premium</h3>
+      <p>Desain elegan & modern</p>
+    </div>
+    <div class="feature">
+      <h3>🎵 Musik Otomatis</h3>
+      <p>Open source & legal</p>
+    </div>
+    <div class="feature">
+      <h3>⏳ Countdown</h3>
+      <p>Hitung mundur acara</p>
+    </div>
+    <div class="feature">
+      <h3>📩 RSVP</h3>
+      <p>Konfirmasi kehadiran</p>
+    </div>
+  </div>
+</section>
 
-<!-- FORM -->
-<div class="card">
-<input id="title" placeholder="Nama Acara / Mempelai">
-<input id="date" type="datetime-local">
-<input id="location" placeholder="Lokasi Acara">
-<textarea id="message">Dengan hormat kami mengundang Anda...</textarea>
+<!-- TEMPLATES -->
+<section class="templates">
+  <div class="container">
+    <h2 style="font-family:Playfair Display;text-align:center">
+      Pilihan Template
+    </h2>
+    <br>
+    <div class="template-grid">
+      <div class="template-card">Wedding Elegant</div>
+      <div class="template-card">Wedding Islami</div>
+      <div class="template-card">Minimalist</div>
+    </div>
+  </div>
+</section>
 
-<select id="music">
-<option value="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f3a9a9e62.mp3">
-Instrumental Wedding
-</option>
-<option value="https://cdn.pixabay.com/download/audio/2022/02/23/audio_9b0d4d3f8e.mp3">
-Calm Islamic
-</option>
-</select>
+<!-- GENERATOR -->
+<section class="generator" id="buat">
+  <div class="container">
+    <h2 style="font-family:Playfair Display;text-align:center">
+      Buat Undangan Anda
+    </h2>
 
-<button onclick="generate()">Generate Undangan</button>
-</div>
+    <form onsubmit="event.preventDefault();generate()">
+      <input id="nama" placeholder="Nama Mempelai">
+      <input id="tanggal" type="datetime-local">
+      <input id="lokasi" placeholder="Lokasi Acara">
+      <textarea id="pesan">Dengan hormat kami mengundang Anda...</textarea>
 
-<!-- PREVIEW -->
-<div class="card invitation" id="preview">
-<h2>Nama Acara</h2>
-<p>Tanggal & Lokasi</p>
-<div id="countdown"></div>
-<p>Pesan Undangan</p>
-</div>
+      <select id="musik">
+        <option value="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f3a9a9e62.mp3">
+          Instrumental Wedding
+        </option>
+      </select>
 
-</div>
-</div>
+      <br><br>
+      <button class="btn" type="submit">Generate Undangan</button>
+    </form>
 
-<!-- MUSIC -->
-<audio id="musicPlayer" autoplay loop></audio>
-<div class="music-btn" onclick="toggleMusic()">🎵</div>
+    <div class="preview" id="preview" style="display:none">
+      <h2 id="pNama"></h2>
+      <p id="pTanggal"></p>
+      <p id="pLokasi"></p>
+      <p id="pPesan"></p>
+      <audio id="player" autoplay loop></audio>
+    </div>
+  </div>
+</section>
+
+<footer>
+© 2026 Undanganmu — Digital Invitation Platform
+</footer>
 
 <script>
-let musicPlaying=true;
-
 function generate(){
-  const t=title.value;
-  const d=new Date(date.value);
-  const l=location.value;
-  const m=message.value;
+  preview.style.display="block";
+  pNama.innerText=nama.value;
+  pTanggal.innerText=new Date(tanggal.value).toLocaleString();
+  pLokasi.innerText=lokasi.value;
+  pPesan.innerText=pesan.value;
 
-  preview.innerHTML=`
-    <h2>${t}</h2>
-    <p>${d.toLocaleString()} — ${l}</p>
-    <div id="countdown"></div>
-    <p>${m}</p>
-  `;
-
-  musicPlayer.src=music.value;
-  musicPlayer.volume=.7;
-  musicPlayer.play().catch(()=>{});
-
-  startCountdown(d);
-}
-
-function startCountdown(target){
-  setInterval(()=>{
-    const diff=target-new Date();
-    if(diff<=0){
-      countdown.innerHTML="🎉 Acara Dimulai";
-      return;
-    }
-    const d=Math.floor(diff/86400000);
-    const h=Math.floor(diff/3600000)%24;
-    const m=Math.floor(diff/60000)%60;
-    countdown.innerHTML=`⏳ ${d} Hari ${h} Jam ${m} Menit`;
-  },1000);
-}
-
-function toggleMusic(){
-  musicPlaying=!musicPlaying;
-  musicPlaying?musicPlayer.play():musicPlayer.pause();
+  player.src=musik.value;
+  player.play().catch(()=>{});
 }
 </script>
 
